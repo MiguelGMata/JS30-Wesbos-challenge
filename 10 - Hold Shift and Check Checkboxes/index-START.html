@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hold Shift to Check Multiple Checkboxes</title>
+</head>
+
+<body>
+    <style>
+        html {
+            font-family: sans-serif;
+            background: #ffc600;
+        }
+        
+        .inbox {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #F1F1F1;
+        }
+        
+        .item:last-child {
+            border-bottom: 0;
+        }
+        
+        input:checked+p {
+            background: #F9F9F9;
+            text-decoration: line-through;
+        }
+        
+        input[type="checkbox"] {
+            margin: 20px;
+        }
+        
+        p {
+            margin: 0;
+            padding: 20px;
+            transition: background 0.2s;
+            flex: 1;
+            font-family: 'helvetica neue';
+            font-size: 20px;
+            font-weight: 200;
+            border-left: 1px solid #D1E2FF;
+        }
+    </style>
+    <!--
+   The following is a common layout you would see in an email client.
+   When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
+  -->
+    <div class="inbox">
+        <div class="item">
+            <input type="checkbox">
+            <p>This is an inbox layout.</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Check one item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Hold down your Shift key</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Check a lower item</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Everything in between should also be set to checked</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Try to do it without any libraries</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Just regular JavaScript</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Good Luck!</p>
+        </div>
+        <div class="item">
+            <input type="checkbox">
+            <p>Don't forget to tweet your result!</p>
+        </div>
+    </div>
+
+    <script>
+        // on déclare une const qui va recuperer par query selector tous les input checkbox
+        // EN plus de ça on transforme la nodeList que va donner le querySelector en array par Array.from
+        const boxs = Array.from(document.querySelectorAll('.inbox input[type = "checkbox"]'));
+
+        // declaration de trois variables, la position A, B et le nombre de clique partant de 0
+        let posA;
+        let posB;
+        let nbClick = 0;
+
+        //on declare la fonction handleCheck
+        function handleCheck(event) {
+            // on déclare que le nbClick va s'incrémenter de 1 à chaque clique 
+            nbClick++;
+            // Si on clique 1 fois, posA va prendre la valeur de la box cliqué (grâce à indexOf)
+            //ex : si on clique sur la box num.2, il renvoie 2
+            //this renverra toujours à "box" (voir ligne 169)
+            if (nbClick === 1) {
+                posA = boxs.indexOf(this)
+                    // également si on clique une deuxième fois, posB va prendre la valeur de la deuxième box cliqué
+            } else if (nbClick === 2) {
+                posB = boxs.indexOf(this)
+                    // on reinitialise nbClick à zéro pour pouvoir le réutiliser
+                nbClick = 0;
+            }
+            // maintenant si on clique sur shift ET qu'on clique sur une box
+            if (event.shiftKey && this.checked) {
+                // si la valeur de la position A (le premier clic) est < à posB
+                if (posA < posB) {
+                    // alors on récupère par slice les valeurs, sous forme d'array, des checkbox pas cochés qui se trouvent entre les deux chexkboxes cliqués
+                    // on met +1 à posA parce que slice va de base garder la valeur de posA et exclure par contre posB
+                    // Mais comme on ne veut pas de posA, vu qu'on cherche juste a avoir les valeurs au milieu, on fait +1
+                    let gap = boxs.slice(posA + 1, posB);
+                    //boucle for qui dit que sur toutes les valeurs de gap, donc toutes les checkboxes pas cochés du milieu...
+                    for (i = 0; i < gap.length; i++) {
+                        //...on va .checked, donc cocher ces checkboxes du milieu, en passant la valeur à true.
+                        // initialement le .checked est à false, donc pas coché
+                        gap[i].checked = true;
+                    }
+                    // Sinon si la premiere valeur (posA) est plus grand que posB (en gros si on vaut faire ça à l'envers)
+                } else {
+                    if (posA > posB) {
+                        // on fait exactement la même chose qu'a l'endroit, mais là c'est posB qui va être déclaré d'abord
+                        // donc naturellement slice va vouloir inclure la valeur de posB, mais on ne le veut pas donc +1
+                        // et ensuite vient posA qui est naturellement exclue
+                        let gap = boxs.slice(posB + 1, posA);
+                        for (i = 0; i < gap.length; i++) {
+                            gap[i].checked = true;
+                        }
+                    }
+                }
+            }
+        }
+        // ForEach() est une méthode qui permet d'executer une fonction donnée sur chaque élement du tableau
+        // donc ça se traduit ici par :  forEach, pour chaque element de boxs (en gros ses enfants qui sont les inputs, mais ici qu'on appele box)
+        // à chacun de ces box on vient appliquer un gestionnaire d'evenement au click
+        boxs.forEach(box => box.addEventListener('click', handleCheck));
+    </script>
+</body>
+
+</html>

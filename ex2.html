@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> structure DOM</title>
+</head>
+<body>
+ 
+
+    <style>
+        #couleur{
+            width: 50vw;
+            height: 50vh;
+            background-color: aquamarine;
+        }
+    </style>
+    
+    <script>
+        let nDiv = document.createElement('div');
+        console.log(nDiv);
+        nDiv.id = 'couleur';
+        nDiv.className = 'couleur2';
+        document.body.appendChild(nDiv);
+
+        let click = document.getElementById('couleur');
+
+        function cambiar() {
+            couleur.style.background ='yellow';
+        }
+        click.onclick = cambiar;
+
+        let autre = document.getElementById('couleur');
+
+        autre.addEventListener('mouseover',function() {
+        couleur.style.background ='red'; 
+        })
+
+        autre.addEventListener('mouseout',function() {
+            couleur.style.background ='aquamarine'; 
+        })
+
+    </script>
+</body>
+</html>

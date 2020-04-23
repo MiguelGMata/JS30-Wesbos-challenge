@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> structure DOM</title>
+</head>
+<body>
+    <script>
+       
+        let nDiv = document.createElement('div');
+        console.log(nDiv);
+        nDiv.id = 'langues';
+
+        let p = document.createElement('p');
+        console.log(p);
+        p.innerHTML = ('Langages basés sur ECMAScript');
+        document.body.appendChild(p);
+
+        let liste = document.createElement('ul');
+        console.log(liste);
+        let array = ['JavaScript', 'script', 'ActionScript', 'Ex4'];
+
+        for(let i = 0; i < array.length; i+=1) {
+            let li = document.createElement('li');
+            li.innerHTML = array[i];
+            console.log(li);
+            liste.appendChild(li);
+        }
+        document.body.appendChild(liste);
+  
+  </script>
+</body>
+</html>

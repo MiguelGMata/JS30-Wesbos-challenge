@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+  const pressed = [];
+  const secretCode = 'miguel';
+ 
+  window.addEventListener('keyup', (event) => {
+    console.log(event.key);
+    pressed.push(event.key);
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+    if (pressed.join('').includes(secretCode)) { //si la funcion es igual al codigo secreto
+      cornify_add(); //agrego la funcion de unicornio
+      console.log('BRAVO!!! VOUS AVEZ DEVINÉ!!!');
+    }
+  console.log(pressed);
+  });
+
+</script>
+</body>
+</html>
