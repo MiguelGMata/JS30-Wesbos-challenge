@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥Miguel!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  const div = document.querySelector('.hero');
+  const text = div.querySelector('h1');
+  const walk = 300; 
+
+  function shadow(event) {
+    const { offsetWidth: width, offsetHeight: height } = div;
+    let { offsetX: x, offsetY: y } = event;
+
+    if (this !== event.target) {
+      x = x + event.target.offsetLeft;
+      y = y + event.target.offsetTop;
+    }
+
+    const xWalk = Math.round((x / width * walk) - (walk / 2));
+    const yWalk = Math.round((y / height * walk) - (walk / 2));
+
+    text.style.textShadow = `
+    ${xWalk}px ${yWalk * -1}px 0 red,
+    ${xWalk * -1}px ${yWalk}px 0 blue,
+    ${xWalk}px ${yWalk}px 0 yellow,
+    ${xWalk * -1}px ${yWalk * -1}px 0 green`;
+    
+
+  }
+
+  div.addEventListener('mousemove', shadow);
+  /*
+  const div = document.querySelector('.hero');
+  const text = Div.querySelector('h1');
+  const walk = 200; //px
+  
+  function shadow(event) {
+     const width = div.offsetWidth;
+     const height = div.offseHight;
+
+     let x = event.offsetX;
+     let y = event.offsetY;
+    
+    if(this !== event.target){
+      x += event.target.offsetLeft;
+      y += event.target.offsetTop;
+    }
+
+    const xWalk = Math.round((x / width * walk) - (walk / 2));
+    const yWalk = Math.round((y / height * walk) -(walk / 2));
+    console.log(xWalk, yWalk);
+
+    text.style.textShadow = `
+    ${xWalk}px ${yWalk * -1}px 0 #333,
+    ${xWalk * -1}px ${yWalk}px 0 #555,
+    ${xWalk}px ${yWalk}px 0 #777,
+    ${xWalk * -1}px ${yWalk * -1}px 0 #999`;
+  }
+
+  Div.addEventListener('mousemove', shadow);*/
+</script>
+</body>
+</html>
